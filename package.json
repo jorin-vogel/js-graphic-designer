@@ -1,0 +1,35 @@
+{
+  "name": "js-graphic-designer",
+  "version": "0.1.0",
+  "description": "Let your users design their own graphics on your website",
+  "main": "index.js",
+  "scripts": {
+    "build": "node_modules/.bin/webpack --optimize-minimize index.js graphicDesigner.min.js",
+    "watch": "node_modules/.bin/webpack -d --watch index.js graphicDesigner.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jorin-vogel/js-graphic-designer.git"
+  },
+  "keywords": [
+    "browser",
+    "svg",
+    "graphic",
+    "image",
+    "designer",
+    "creator",
+    "product"
+  ],
+  "author": "Jorin Vogel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorin-vogel/js-graphic-designer/issues"
+  },
+  "homepage": "https://github.com/jorin-vogel/js-graphic-designer",
+  "devDependencies": {
+    "webpack": "^1.4.13"
+  },
+  "dependencies": {
+    "promiscuous": "^0.6.0"
+  }
+}

@@ -1,4 +1,19 @@
 js-graphic-designer
 ===================
 
-Let your users design their own graphics on your website
+
+
+
+`npm install`
+`npm run-script build`
+`npm run-script watch`
+
+
+
+Core Events:
+'svg:loaded'
+
+App API:
+config
+svg
+setSize

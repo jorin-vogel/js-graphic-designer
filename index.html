@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>js-graphic-designer</title>
+        <meta name="description" content="Let your users design their own graphics on your website">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <!--[if lt IE 9]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <h1>This is a Demo for js-graphic-designer</h1>
+
+        <div id="designer"></div>
+
+        <button id="background-color">Choose Background</button>
+        <button id="image-upload">Upload Image</button>
+
+        <select id="type-select">
+            <option value="first-product" data-width="600" data-height="400">First Product</option>
+        </select>
+
+        <div id="item-settings">
+            <h3>Item Settings</h3>
+            <button id="to-back">Move to Back</button>
+            <button id="to-front">Move to Front</button>
+            <button id="destroy">Delete</button>
+        </div>
+
+        <button id="preview">Preview</button>
+
+
+        <script src="graphicDesigner.min.js"></script>
+        <script>
+
+            graphicDesigner({
+                element: '#designer',
+                unit: 'mm',
+                dpi: 250,
+                width: 60,
+                height: 20
+            })
+            .imageUpload({
+                element: '#image-upload'
+            });
+
+        </script>
+
+    </body>
+</html>
