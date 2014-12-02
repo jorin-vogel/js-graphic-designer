@@ -1,5 +1,7 @@
 var eventEmitter = require('./eventEmitter');
-var graphicElement = require('./graphicElement');
+var svgElement = require('./svgElement');
+var select = require('./select');
+var move = require('./move');
 var _ = require('./utils');
 
 
@@ -9,10 +11,13 @@ var graphicDesigner = function(options) {
 
     app.config = _.defaults(options || {}, defaults);
 
+    app.container = document.querySelector(app.config.element);
+
+
     // plugin activation shortcuts
-    Object.keys(graphicDesigner).forEach(function(plugin) {
+    Object.keys(graphicDesigner.plugins).forEach(function(plugin) {
         app[plugin] = function(options) {
-            graphicDesigner[plugin](app, options);
+            graphicDesigner.plugins[plugin](app, options);
         };
     });
 
@@ -31,18 +36,16 @@ var graphicDesigner = function(options) {
     };
 
 
-    app.eventEmitter();
-    app.graphicElement();
+    eventEmitter(app);
+    svgElement(app);
+    select(app);
+    move(app);
 
 
     return app;
 };
 
-
-graphicDesigner.eventEmitter = eventEmitter;
-graphicDesigner.graphicElement = graphicElement;
-
-
+graphicDesigner.plugins = {};
 
 var defaults = {
     unit: 'pixel',

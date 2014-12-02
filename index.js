@@ -3,7 +3,7 @@ window.setImmediate = window.setTimeout;
 
 var graphicDesigner = require('./core');
 
-graphicDesigner.imageUpload = require('./plugins/imageUpload');
+graphicDesigner.plugins.imageUpload = require('./plugins/imageUpload');
 
 
 window.graphicDesigner = graphicDesigner;

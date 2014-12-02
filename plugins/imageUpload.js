@@ -90,7 +90,7 @@ module.exports = function(app, options) {
         _.translateSvg(el, image.x, image.y);
 
         app.svg.appendChild(el);
-        app.emit('create:element', el);
+        app.emit('create', el);
     }
 
     function placeAt(event) {

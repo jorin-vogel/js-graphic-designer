@@ -100,4 +100,45 @@ function propStr(prop, values) {
     return prop+'('+values.join(' ')+')';
 }
 
+
+
+utils.animation = function() {
+
+    var ani;
+
+    return function(fn) {
+        if (ani) cancelAnimationFrame(ani);
+        ani = requestAnimationFrame(fn);
+    };
+
+};
+
+
+
+utils.isMobile = function() {
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
+};
+
+utils.pageX = function(e) {
+    return utils.isMobile() ? e.originalEvent.touches[0].pageX : e.pageX;
+};
+
+utils.pageY = function(e) {
+    return utils.isMobile() ? e.originalEvent.touches[0].pageY : e.pageY;
+};
+
+utils.onMove = function() {
+  return utils.isMobile() ? 'touchmove' : 'mousemove';
+};
+
+utils.onDown = function() {
+  return utils.isMobile() ? 'touchstart' : 'mousedown';
+};
+
+utils.onUp = function() {
+  return utils.isMobile() ? 'touchend' : 'mouseup';
+};
+
+
+
 module.exports = utils;
