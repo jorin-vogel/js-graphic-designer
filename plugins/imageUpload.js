@@ -1,3 +1,4 @@
+var Promise = require('promiscuous');
 var readImage = require('./utils/readImage');
 var _ = require('../core/utils');
 
@@ -22,7 +23,6 @@ module.exports = function(app, options) {
     document.querySelector(options.element).addEventListener('click', triggerFileInput);
 
     input.addEventListener('change', function() {
-        // TODO: warn on multiple files
         if (input.files.length !== 1) return;
         readImage(input.files[0]).then(scale).then(center).then(create);
     });
@@ -57,9 +57,7 @@ module.exports = function(app, options) {
     }
 
     function uploadDropped(e) {
-        // TODO: warn on multiple files and return rejected promise
-        if (e.dataTransfer.files.length > 1) return;
-
+        if (e.dataTransfer.files.length > 1) return Promise.reject();
         return readImage(e.dataTransfer.files[0]);
     }
 

@@ -5,7 +5,7 @@ var move = require('./move');
 var _ = require('./utils');
 
 
-var graphicDesigner = function(options) {
+function graphicDesigner(options) {
 
     var app = {};
 
@@ -49,7 +49,7 @@ var graphicDesigner = function(options) {
 
 
     return app;
-};
+}
 
 graphicDesigner.plugins = {};
 
@@ -67,9 +67,9 @@ var defaults = {
 
 
 
-var mmToInch = function(mm) {
+function mmToInch(mm) {
     return Math.round(mm * 3.937) / 100;
-};
+}
 
 
 

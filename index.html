@@ -14,6 +14,13 @@
         .item-selected .item-settings {
             display: block;
         }
+        #background-color {
+            width: 100px;
+            height: 100px;
+        }
+        .selected {
+            outline: 1px solid #f00;
+        }
         </style>
     </head>
     <body>
@@ -26,7 +33,6 @@
         <div id="designer"></div>
 
         <p>
-            <button id="background-color">Choose Background</button>
             <button id="image-upload">Upload Image</button>
 
             <select id="type-select">
@@ -34,6 +40,10 @@
             </select>
 
             <button id="preview">Preview</button>
+        </p>
+
+        <p>
+            Choose Background: <div id="background-color"></div>
         </p>
 
         <p class="item-settings">
@@ -55,6 +65,10 @@
                 height: 20
             })
             .cache()
+            .backgroundColorPicker({
+                element: '#background-color',
+                image: 'colorpicker.png'
+            })
             .imageUpload({
                 element: '#image-upload',
                 dropBodyClass: 'image-drop'

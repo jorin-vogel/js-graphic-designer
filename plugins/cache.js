@@ -9,6 +9,7 @@ module.exports = function(app, options) {
 
 
     app.on('element', updateCache);
+    app.on('background', updateCache);
 
 
     function loadFromCache() {
