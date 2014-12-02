@@ -8,8 +8,10 @@ module.exports = function(app, options) {
     });
 
 
-    app.on('element', updateCache);
-    app.on('background', updateCache);
+    app
+        .on('element', updateCache)
+        .on('svg:resize', updateCache)
+        .on('background', updateCache);
 
 
     function loadFromCache() {

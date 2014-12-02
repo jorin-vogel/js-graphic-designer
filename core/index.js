@@ -34,6 +34,8 @@ function graphicDesigner(options) {
         }
         app.svg.setAttribute('width' , Math.round(width  * app.config.scaleFactor));
         app.svg.setAttribute('height', Math.round(height * app.config.scaleFactor));
+
+        app.emit('svg:resize');
     };
 
 

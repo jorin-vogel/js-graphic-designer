@@ -22,12 +22,11 @@ module.exports = function(app) {
     }
 
     function selectTarget(e) {
-        if (e.target === app.svg) {
+        var notElement = !e.target.classList.contains(app.config.itemClass);
+        if (notElement) {
             clean();
             return;
         }
-        var notElement = !e.target.classList.contains(app.config.itemClass);
-        if (notElement) return;
         e.stopPropagation();
         var notSelected = !e.target.classList.contains(app.config.itemSelectClass);
         if (notSelected) select(e.target);

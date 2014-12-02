@@ -21,6 +21,13 @@
         .selected {
             outline: 1px solid #f00;
         }
+        svg {
+            -moz-transition: width 0.4s ease-out, height 0.4s ease-out;
+            -webkit-transition: width 0.4s ease-out, height 0.4s ease-out;
+            -o-transition: width 0.4s ease-out, height 0.4s ease-out;
+            -ms-transition: width 0.4s ease-out, height 0.4s ease-out;
+            transition: width 0.4s ease-out, height 0.4s ease-out;
+        }
         </style>
     </head>
     <body>
@@ -36,7 +43,10 @@
             <button id="image-upload">Upload Image</button>
 
             <select id="type-select">
-                <option value="first-product" data-width="600" data-height="400">First Product</option>
+                <option value="first-product" data-width="60" data-height="20">First Product</option>
+                <option value="next-product" data-width="50" data-height="20">Next Product</option>
+                <option value="another-product" data-width="40" data-height="40">Another Product</option>
+
             </select>
 
             <button id="preview">Preview</button>
@@ -68,6 +78,9 @@
             .backgroundColorPicker({
                 element: '#background-color',
                 image: 'colorpicker.png'
+            })
+            .sizeSelect({
+                element: '#type-select'
             })
             .imageUpload({
                 element: '#image-upload',
