@@ -27,6 +27,4 @@ module.exports = function(app, options) {
         app.emit('cache:update');
     }
 
-
-    return app;
 };

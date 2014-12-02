@@ -6,6 +6,15 @@
         <title>js-graphic-designer</title>
         <meta name="description" content="Let your users design their own graphics on your website">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <style>
+        .item-settings {
+            display: none;
+        }
+        .item-selected .item-settings {
+            display: block;
+        }
+        </style>
     </head>
     <body>
         <!--[if lt IE 9]>
@@ -16,21 +25,23 @@
 
         <div id="designer"></div>
 
-        <button id="background-color">Choose Background</button>
-        <button id="image-upload">Upload Image</button>
+        <p>
+            <button id="background-color">Choose Background</button>
+            <button id="image-upload">Upload Image</button>
 
-        <select id="type-select">
-            <option value="first-product" data-width="600" data-height="400">First Product</option>
-        </select>
+            <select id="type-select">
+                <option value="first-product" data-width="600" data-height="400">First Product</option>
+            </select>
 
-        <div id="item-settings">
-            <h3>Item Settings</h3>
+            <button id="preview">Preview</button>
+        </p>
+
+        <p class="item-settings">
+            <span>Item Settings:</span>
             <button id="to-back">Move to Back</button>
             <button id="to-front">Move to Front</button>
             <button id="destroy">Delete</button>
-        </div>
-
-        <button id="preview">Preview</button>
+        </p>
 
 
         <script src="graphicDesigner.min.js"></script>
@@ -47,7 +58,12 @@
             .imageUpload({
                 element: '#image-upload',
                 dropBodyClass: 'image-drop'
-            });
+            })
+            .deleteButton({
+                element: '#destroy',
+                confirmText: 'Are you sure you want to delete the selected element?'
+            })
+            .ready();
 
         </script>
 

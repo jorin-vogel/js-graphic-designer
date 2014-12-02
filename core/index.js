@@ -17,7 +17,8 @@ var graphicDesigner = function(options) {
     // plugin activation shortcuts
     Object.keys(graphicDesigner.plugins).forEach(function(plugin) {
         app[plugin] = function(options) {
-            return graphicDesigner.plugins[plugin](app, options);
+            graphicDesigner.plugins[plugin](app, options);
+            return app;
         };
     });
 
@@ -33,6 +34,11 @@ var graphicDesigner = function(options) {
         }
         app.svg.setAttribute('width' , Math.round(width  * app.config.scaleFactor));
         app.svg.setAttribute('height', Math.round(height * app.config.scaleFactor));
+    };
+
+
+    app.ready = function() {
+        app.emit('ready');
     };
 
 
@@ -53,7 +59,7 @@ var defaults = {
     width: 500,
     height: 500,
     scaleFactor: 1,
-    selectClass: 'item-selected',
+    selectBodyClass: 'item-selected',
     itemClass: 'item',
     itemSelectClass: 'selected',
     itemDragClass: 'dragging'

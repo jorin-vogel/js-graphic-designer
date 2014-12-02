@@ -7,7 +7,8 @@ module.exports = function(app) {
         .on('element:create', select)
         .on('element:delete', clean)
         .on('render', clean)
-        .on('svg:load', triggerSelect);
+        .on('svg:load', triggerSelect)
+        .on('ready', triggerSelect);
 
 
     app.container.addEventListener(_.onDown(), selectTarget);
@@ -16,9 +17,9 @@ module.exports = function(app) {
     function triggerSelect() {
         var el = getSelected();
         if (!el) return;
+        bodyClass(true);
         app.emit('element:select', el);
     }
-    triggerSelect();
 
     function selectTarget(e) {
         if (e.target === app.svg) {
@@ -35,18 +36,24 @@ module.exports = function(app) {
     function select(el) {
         clean();
         el.classList.add(app.config.itemSelectClass);
-        app.emit('select', el);
+        bodyClass(true);
+        app.emit('element:select', el);
     }
 
     function clean(el) {
         if (!el) el = getSelected();
         if (!el) return;
         el.classList.remove(app.config.itemSelectClass);
+        bodyClass(false);
         app.emit('element:unselect', el);
     }
 
     function getSelected() {
         return app.svg.querySelector('.'+app.config.itemClass+'.'+app.config.itemSelectClass);
+    }
+
+    function bodyClass(active) {
+        document.body.classList[active ? 'add' : 'remove'](app.config.selectBodyClass);
     }
 
 };
