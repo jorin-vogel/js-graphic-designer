@@ -5,8 +5,6 @@ var _ = require('../core/utils');
 module.exports = function(app, options) {
 
     if (!options) options = {};
-    _.defaults(options, { dropZoneClass: 'image-drop' });
-
 
     // chrome behaves weird and fires drag enter/leave events randomly
     var throttle;
@@ -33,27 +31,32 @@ module.exports = function(app, options) {
     function dragIn(e) {
         e.preventDefault();
         if (throttle) clearTimeout(throttle);
-        // app.el.addClass('image-drop');
+        dropClass(true);
+    }
+    function dragOut() {
+        if (throttle) clearTimeout(throttle);
+        throttle = setTimeout(function() {
+            dropClass(false);
+        }, 300);
     }
     document.addEventListener('dragenter', dragIn);
     document.addEventListener('dragover', dragIn);
-
-        // .on('dragleave', function() {
-        //     if (throttle) clearTimeout(throttle);
-        //     throttle = setTimeout(function() {
-        //         app.el.removeClass('image-drop');
-        //     }, 300);
-        // })
+    document.addEventListener('dragleave', dragOut);
 
     document.addEventListener('drop', function(e) {
         e.preventDefault();
+        dropClass(false);
         // TODO: warn on big image size
         uploadDropped(e).then(scale).then(placeAt(e)).then(create);
     });
 
+    function dropClass(active) {
+        if (options.dropBodyClass) {
+            document.body.classList[active ? 'add' : 'remove'](options.dropBodyClass);
+        }
+    }
 
     function uploadDropped(e) {
-        // app.el.removeClass('image-drop');
         // TODO: warn on multiple files and return rejected promise
         if (e.dataTransfer.files.length > 1) return;
 
