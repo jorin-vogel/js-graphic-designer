@@ -17,7 +17,7 @@ var graphicDesigner = function(options) {
     // plugin activation shortcuts
     Object.keys(graphicDesigner.plugins).forEach(function(plugin) {
         app[plugin] = function(options) {
-            graphicDesigner.plugins[plugin](app, options);
+            return graphicDesigner.plugins[plugin](app, options);
         };
     });
 

@@ -84,13 +84,13 @@ module.exports = function(app, options) {
         var el = _.createSvg('image');
         el.setAttribute('height', image.height);
         el.setAttribute('width', image.width);
-        el.setAttribute('class', 'element');
+        el.setAttribute('class', app.config.itemClass);
         el.setAttributeNS('http://www.w3.org/1999/xlink','href', image.url);
 
         _.translateSvg(el, image.x, image.y);
 
         app.svg.appendChild(el);
-        app.emit('create', el);
+        app.emit('element:create', el);
     }
 
     function placeAt(event) {
@@ -108,6 +108,7 @@ module.exports = function(app, options) {
             return image;
         };
     }
+
 
     return app;
 };

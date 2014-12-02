@@ -12,7 +12,14 @@ module.exports = function(obj) {
     obj.emit = function(event) {
         var i, handler;
         var args = slice.call(arguments, 1);
-        var handlers = events[event];
+        var handlers = [];
+
+        // emit sub:events
+        var parts = event.split(':');
+        for (i = 1; i <= parts.length; i++) {
+            var subHandlers = events[parts.slice(0, i).join(':')];
+            if (subHandlers) handlers = handlers.concat(subHandlers);
+        }
 
         // NOTE: doesn't log names for once listeners
         // DEBUG

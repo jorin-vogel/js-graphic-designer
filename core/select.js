@@ -4,19 +4,19 @@ var _ = require('./utils');
 module.exports = function(app) {
 
     app
-        .on('create', select)
-        .on('delete', clean)
+        .on('element:create', select)
+        .on('element:delete', clean)
         .on('render', clean)
-        .on('loadSvg', triggerSelect);
+        .on('svg:load', triggerSelect);
 
 
     app.container.addEventListener(_.onDown(), selectTarget);
 
 
     function triggerSelect() {
-        var el = app.svg.querySelector('.element.selected');
+        var el = getSelected();
         if (!el) return;
-        app.emit('select', el);
+        app.emit('element:select', el);
     }
     triggerSelect();
 
@@ -25,24 +25,28 @@ module.exports = function(app) {
             clean();
             return;
         }
-        var notElement = !e.target.classList.contains('element');
+        var notElement = !e.target.classList.contains(app.config.itemClass);
         if (notElement) return;
         e.stopPropagation();
-        var notSelected = !e.target.classList.contains('selected');
+        var notSelected = !e.target.classList.contains(app.config.itemSelectClass);
         if (notSelected) select(e.target);
     }
 
     function select(el) {
         clean();
-        el.classList.add('selected');
+        el.classList.add(app.config.itemSelectClass);
         app.emit('select', el);
     }
 
     function clean(el) {
-        if (!el) el = app.svg.querySelector('.element.selected');
+        if (!el) el = getSelected();
         if (!el) return;
-        el.classList.remove('selected');
-        app.emit('unselect', el);
+        el.classList.remove(app.config.itemSelectClass);
+        app.emit('element:unselect', el);
+    }
+
+    function getSelected() {
+        return app.svg.querySelector('.'+app.config.itemClass+'.'+app.config.itemSelectClass);
     }
 
 };

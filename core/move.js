@@ -9,14 +9,14 @@ module.exports = function(app) {
 
     function drag(e) {
         var el = e.target;
-        var notElement = !el.classList.contains('element');
+        var notElement = !el.classList.contains(app.config.itemClass);
         if (notElement) return;
 
         e.preventDefault(); // FF thing
 
         var pos = calcOffset(e, el);
 
-        el.classList.add('dragging');
+        el.classList.add(app.config.itemDragClass);
 
         app.svg.addEventListener(_.onMove(), updatePosition);
         document.addEventListener(_.onUp(), drop);
@@ -34,9 +34,9 @@ module.exports = function(app) {
             app.svg.removeEventListener(_.onMove(), updatePosition);
             document.removeEventListener(_.onUp(), drop);
 
-            el.classList.remove('dragging');
+            el.classList.remove(app.config.itemDragClass);
 
-            app.emit('changePosition', el);
+            app.emit('element:change:position', el);
         }
     }
 

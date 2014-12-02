@@ -11,6 +11,7 @@ module.exports = function(app) {
 
     app.setSize(app.config.width, app.config.height);
 
-    app.emit('loadSvg');
+
+    app.emit('svg:load');
 
 };
