@@ -18,7 +18,9 @@ function imageUpload(app, options) {
         event.initEvent('click', true, false);
         input.dispatchEvent(event);
     }
-    document.querySelector(options.element).addEventListener('click', triggerFileInput);
+
+    var button = document.querySelector(options.element);
+    if (button) button.addEventListener('click', triggerFileInput);
 
     input.addEventListener('change', function() {
         if (input.files.length !== 1) return;

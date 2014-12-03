@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node_modules/.bin/webpack --optimize-minimize index.js graphicDesigner.min.js",
-    "watch": "node_modules/.bin/webpack -d --watch index.js graphicDesigner.min.js"
+    "watch": "node_modules/.bin/webpack -d --watch index.js graphicDesigner.min.js",
+    "server": "node_modules/.bin/http-server &"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/jorin-vogel/js-graphic-designer",
   "devDependencies": {
+    "http-server": "^0.7.3",
     "webpack": "^1.4.13"
   },
   "dependencies": {

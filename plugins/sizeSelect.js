@@ -1,7 +1,4 @@
-
-
 var defaults = {
-    idAttribute: 'value',
     widthAttribute: 'data-width',
     heightAttribute: 'data-height'
 };

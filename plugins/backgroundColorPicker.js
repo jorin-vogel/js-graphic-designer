@@ -1,7 +1,5 @@
 var defaults = {
-    color: '#ffffff',
-    setButtonColor: true,
-    setTextColor: true
+    color: '#ffffff'
 };
 
 
@@ -59,7 +57,7 @@ function backgroundColorPicker(app, options) {
         container.removeEventListener(app.utils.onMove(), updateBackgroundColor);
         container.removeEventListener(app.utils.onUp(), stopTracking);
 
-        app.emit('background:update', background.fill);
+        app.emit('background:change', background.fill);
     }
 
 

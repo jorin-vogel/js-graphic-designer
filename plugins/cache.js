@@ -24,7 +24,7 @@ function cache(app, options) {
 
     function updateCache() {
         localStorage.setItem(options.storageKey, app.container.innerHTML);
-        app.emit('cache:update');
+        app.emit('cache:change');
     }
 
 }
