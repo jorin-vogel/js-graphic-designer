@@ -2,22 +2,37 @@ var eventEmitter = require('./eventEmitter');
 var svgElement = require('./svgElement');
 var select = require('./select');
 var move = require('./move');
-var _ = require('./utils');
+var utils = require('./utils');
+
+
+var defaults = {
+    width: 500,
+    height: 500,
+    scaleFactor: 1,
+    unit: 'pixel',
+    dpi: 300,
+    selectBodyClass: 'item-selected',
+    itemClass: 'item',
+    itemSelectClass: 'selected',
+    itemDragClass: 'dragging'
+};
+
 
 
 function graphicDesigner(options) {
 
     var app = {};
 
-    app.config = _.defaults(options || {}, defaults);
+    app.config = addDefaults(options, defaults);
 
     app.container = document.querySelector(app.config.element);
 
 
     // plugin activation shortcuts
-    Object.keys(graphicDesigner.plugins).forEach(function(plugin) {
-        app[plugin] = function(options) {
-            graphicDesigner.plugins[plugin](app, options);
+    Object.keys(graphicDesigner.plugins).forEach(function(key) {
+        app[key] = function(options) {
+            var plugin = graphicDesigner.plugins[key];
+            plugin(app, addDefaults(options, plugin.defaults));
             return app;
         };
     });
@@ -43,6 +58,8 @@ function graphicDesigner(options) {
         app.emit('ready');
     };
 
+    app.utils = utils;
+
 
     eventEmitter(app);
     svgElement(app);
@@ -55,22 +72,19 @@ function graphicDesigner(options) {
 
 graphicDesigner.plugins = {};
 
-var defaults = {
-    unit: 'pixel',
-    dpi: 300,
-    width: 500,
-    height: 500,
-    scaleFactor: 1,
-    selectBodyClass: 'item-selected',
-    itemClass: 'item',
-    itemSelectClass: 'selected',
-    itemDragClass: 'dragging'
-};
-
-
 
 function mmToInch(mm) {
     return Math.round(mm * 3.937) / 100;
+}
+
+
+
+function addDefaults(options, defaults) {
+    if (!options) options = {};
+    if (defaults) Object.keys(defaults).forEach(function(key) {
+        if (typeof options[key] === 'undefined') options[key] = defaults[key];
+    });
+    return options;
 }
 
 

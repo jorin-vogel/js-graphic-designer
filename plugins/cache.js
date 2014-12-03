@@ -1,12 +1,9 @@
-var _ = require('../core/utils');
+var defaults = {
+    storageKey: 'graphicDesignerGraphic'
+};
 
 
-module.exports = function(app, options) {
-
-    options = _.defaults(options || {}, {
-        storageKey: 'graphicDesignerGraphic'
-    });
-
+function cache(app, options) {
 
     app
         .on('element', updateCache)
@@ -30,4 +27,9 @@ module.exports = function(app, options) {
         app.emit('cache:update');
     }
 
-};
+}
+
+
+cache.defaults = defaults;
+
+module.exports = cache;

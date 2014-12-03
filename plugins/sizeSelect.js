@@ -1,14 +1,13 @@
-var _ = require('../core/utils');
 
 
-module.exports = function(app, options) {
+var defaults = {
+    idAttribute: 'value',
+    widthAttribute: 'data-width',
+    heightAttribute: 'data-height'
+};
 
-    options = _.defaults(options || {}, {
-        idAttribute: 'value',
-        widthAttribute: 'data-width',
-        heightAttribute: 'data-height'
-    });
 
+function sizeSelect(app, options) {
 
     var selectBox = document.querySelector(options.element);
 
@@ -20,7 +19,6 @@ module.exports = function(app, options) {
     function updateSelection() {
         var product = app.svg.getAttribute('data-product');
         if (!product) return;
-        console.log(product)
         selectBox.value = product;
     }
 
@@ -33,6 +31,9 @@ module.exports = function(app, options) {
         app.setSize(width, height);
     }
 
-};
+}
 
 
+sizeSelect.defaults = defaults;
+
+module.exports = sizeSelect;

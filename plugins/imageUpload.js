@@ -1,11 +1,9 @@
 var Promise = require('promiscuous');
 var readImage = require('./utils/readImage');
-var _ = require('../core/utils');
 
 
-module.exports = function(app, options) {
+function imageUpload(app, options) {
 
-    if (!options) options = {};
 
     // chrome behaves weird and fires drag enter/leave events randomly
     var throttle;
@@ -79,13 +77,13 @@ module.exports = function(app, options) {
     }
 
     function create(image) {
-        var el = _.createSvg('image');
+        var el = app.utils.createSvg('image');
         el.setAttribute('height', image.height);
         el.setAttribute('width', image.width);
         el.setAttribute('class', app.config.itemClass);
         el.setAttributeNS('http://www.w3.org/1999/xlink','href', image.url);
 
-        _.translateSvg(el, image.x, image.y);
+        app.utils.translateSvg(el, image.x, image.y);
 
         app.svg.appendChild(el);
         app.emit('element:create', el);
@@ -107,4 +105,6 @@ module.exports = function(app, options) {
         };
     }
 
-};
+}
+
+module.exports = imageUpload;

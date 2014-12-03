@@ -1,4 +1,4 @@
-module.exports = function(app, options) {
+function zIndexUpdate(app, options) {
 
 
     var back  = options.toBack && document.querySelector(options.toBack);
@@ -65,4 +65,7 @@ module.exports = function(app, options) {
         button.removeEventListener('click', handler);
     }
 
-};
+}
+
+
+module.exports = zIndexUpdate;

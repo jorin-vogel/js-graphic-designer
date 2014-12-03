@@ -1,14 +1,11 @@
-var _ = require('../core/utils');
+var defaults = {
+    color: '#ffffff',
+    setButtonColor: true,
+    setTextColor: true
+};
 
 
-
-module.exports = function(app, options) {
-
-    options = _.defaults(options || {}, {
-        color: '#ffffff',
-        setButtonColor: true,
-        setTextColor: true
-    });
+function backgroundColorPicker(app, options) {
 
     var background;
 
@@ -20,7 +17,7 @@ module.exports = function(app, options) {
 
     app.on('ready', ensureBackground);
 
-    container.addEventListener(_.onDown(), startTracking);
+    container.addEventListener(app.utils.onDown(), startTracking);
 
 
     loadImage();
@@ -30,7 +27,7 @@ module.exports = function(app, options) {
     function ensureBackground() {
         background = app.svg.querySelector('.background');
         if (background) return;
-        background = _.createSvg('rect');
+        background = app.utils.createSvg('rect');
         background.setAttribute('fill', options.color);
         background.classList.add('background');
         background.setAttribute('width', '100%');
@@ -51,16 +48,16 @@ module.exports = function(app, options) {
 
 
     function startTracking(e) {
-        container.addEventListener(_.onMove(), updateBackgroundColor);
-        container.addEventListener(_.onUp(), stopTracking);
+        container.addEventListener(app.utils.onMove(), updateBackgroundColor);
+        container.addEventListener(app.utils.onUp(), stopTracking);
 
         updateBackgroundColor(e);
     }
 
 
     function stopTracking() {
-        container.removeEventListener(_.onMove(), updateBackgroundColor);
-        container.removeEventListener(_.onUp(), stopTracking);
+        container.removeEventListener(app.utils.onMove(), updateBackgroundColor);
+        container.removeEventListener(app.utils.onUp(), stopTracking);
 
         app.emit('background:update', background.fill);
     }
@@ -70,8 +67,8 @@ module.exports = function(app, options) {
         e.preventDefault(); // for touch events
 
         var rect = e.target.getBoundingClientRect();
-        var left = _.pageX(e) - rect.left + document.body.scrollLeft;
-        var top =  _.pageY(e) - rect.top  + document.body.scrollTop;
+        var left = app.utils.pageX(e) - rect.left + document.body.scrollLeft;
+        var top =  app.utils.pageY(e) - rect.top  + document.body.scrollTop;
         var data = ctx.getImageData(left, top, 1, 1).data;
         var color = 'rgb(' + data[0] + ',' + data[1] + ',' + data[2] + ')';
 
@@ -79,4 +76,9 @@ module.exports = function(app, options) {
     }
 
 
-};
+}
+
+
+backgroundColorPicker.defaults = defaults;
+
+module.exports = backgroundColorPicker;

@@ -1,8 +1,6 @@
-var _ = require('./utils');
-
 module.exports = function(app) {
 
-    var svg = _.createSvg('svg');
+    var svg = app.utils.createSvg('svg');
 
     app.container.innerHTML = ''; // empty first
     app.container.appendChild(svg);

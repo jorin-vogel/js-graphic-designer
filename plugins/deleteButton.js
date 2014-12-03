@@ -1,4 +1,4 @@
-module.exports = function(app, options) {
+function deleteButton(app, options) {
 
     var button = document.querySelector(options.element);
 
@@ -31,4 +31,7 @@ module.exports = function(app, options) {
 
     }
 
-};
+}
+
+
+module.exports = deleteButton;

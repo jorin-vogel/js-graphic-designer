@@ -1,6 +1,3 @@
-var _ = require('./utils');
-
-
 module.exports = function(app) {
 
     app
@@ -11,7 +8,7 @@ module.exports = function(app) {
         .on('ready', triggerSelect);
 
 
-    app.container.addEventListener(_.onDown(), selectTarget);
+    app.container.addEventListener(app.utils.onDown(), selectTarget);
 
 
     function triggerSelect() {

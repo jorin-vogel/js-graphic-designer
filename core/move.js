@@ -1,11 +1,9 @@
-var _ = require('./utils');
-
 module.exports = function(app) {
 
 
-    var animate = _.animation();
+    var animate = app.utils.animation();
 
-    app.container.addEventListener(_.onDown(), drag);
+    app.container.addEventListener(app.utils.onDown(), drag);
 
     function drag(e) {
         var el = e.target;
@@ -18,12 +16,12 @@ module.exports = function(app) {
 
         el.classList.add(app.config.itemDragClass);
 
-        app.svg.addEventListener(_.onMove(), updatePosition);
-        document.addEventListener(_.onUp(), drop);
+        app.svg.addEventListener(app.utils.onMove(), updatePosition);
+        document.addEventListener(app.utils.onUp(), drop);
 
         function updatePosition(e) {
             animate(function() {
-                _.translateSvg(el, _.pageX(e) - pos.x, _.pageY(e) - pos.y);
+                app.utils.translateSvg(el, app.utils.pageX(e) - pos.x, app.utils.pageY(e) - pos.y);
                 app.emit('move', el);
             });
         }
@@ -31,8 +29,8 @@ module.exports = function(app) {
         function drop(e) {
             e.preventDefault(); // FF thing
 
-            app.svg.removeEventListener(_.onMove(), updatePosition);
-            document.removeEventListener(_.onUp(), drop);
+            app.svg.removeEventListener(app.utils.onMove(), updatePosition);
+            document.removeEventListener(app.utils.onUp(), drop);
 
             el.classList.remove(app.config.itemDragClass);
 
@@ -40,14 +38,16 @@ module.exports = function(app) {
         }
     }
 
+
+    function calcOffset(e, el) {
+        var pos = app.utils.translateSvg(el);
+
+        return {
+            x: app.utils.pageX(e) - pos.x,
+            y: app.utils.pageY(e) - pos.y
+        };
+    }
+
 };
 
 
-function calcOffset(e, el) {
-    var pos = _.translateSvg(el);
-
-    return {
-        x: _.pageX(e) - pos.x,
-        y: _.pageY(e) - pos.y
-    };
-}
