@@ -2,14 +2,16 @@ var defaults = {
     color: '#ffffff'
 };
 
+
 var backgroundColorPicker = function(app, options) {
 
     var background;
 
-    var container = document.querySelector(options.element);
+    var colorPicker = document.querySelector(options.element);
     var canvas = document.createElement('canvas');
     var ctx = canvas.getContext('2d');
-    container.appendChild(canvas);
+
+    colorPicker.appendChild(canvas);
 
 
     var ensureBackground = function() {
@@ -19,11 +21,14 @@ var backgroundColorPicker = function(app, options) {
 
     var createBackground = function() {
         var bg = app.utils.createSvg('rect');
+
         bg.setAttribute('fill', options.color);
         bg.setAttribute('width', '100%');
         bg.setAttribute('height', '100%');
         bg.classList.add('background');
+
         app.svg.insertBefore(bg, app.svg.firstChild);
+
         return bg;
     };
 
@@ -39,22 +44,9 @@ var backgroundColorPicker = function(app, options) {
     };
 
 
-    var startTracking = function(e) {
-        container.addEventListener(app.utils.onMove(), updateBackgroundColor);
-        container.addEventListener(app.utils.onUp(), stopTracking);
-        updateBackgroundColor(e);
-    };
-
-
-    var stopTracking = function() {
-        container.removeEventListener(app.utils.onMove(), updateBackgroundColor);
-        container.removeEventListener(app.utils.onUp(), stopTracking);
-        app.emit('background:change', background.fill);
-    };
-
-
     var updateBackgroundColor = function(e) {
         e.preventDefault(); // for touch events
+
         var pos = eventPosition(e);
         background.setAttribute('fill', colorAtPos(pos));
     };
@@ -76,11 +68,23 @@ var backgroundColorPicker = function(app, options) {
     };
 
 
+    app.utils.dragDrop({
+
+        element: colorPicker,
+        start: updateBackgroundColor,
+        move: updateBackgroundColor,
+
+        stop: function() {
+            app.emit('background:change', background.fill);
+        }
+
+    });
+
+
     app
         .on('ready', ensureBackground)
         .on('ready', loadImage);
 
-    container.addEventListener(app.utils.onDown(), startTracking);
 
 };
 
