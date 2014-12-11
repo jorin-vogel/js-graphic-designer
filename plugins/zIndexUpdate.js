@@ -1,71 +1,45 @@
-function zIndexUpdate(app, options) {
+var zIndexUpdate = function(app, options) {
 
+    var prev, next;
 
-    var back  = options.toBack && document.querySelector(options.toBack);
+    var back  = options.toBack  && document.querySelector(options.toBack);
     var front = options.toFront && document.querySelector(options.toFront);
 
 
-    app.on('element:select', enableZindex);
+    var moveToBack = function() {
+        if (!app.selected) return;
+        app.svg.insertBefore(app.selected, prev);
+        updateSiblings();
+        app.emit('element:change:z-index', app.selected);
+    };
+
+    var moveToFront = function() {
+        if (!app.selected) return;
+        app.svg.insertBefore(app.selected, next.nextElementSibling);
+        updateSiblings();
+        app.emit('element:change:z-index', app.selected);
+    };
+
+    var updateSiblings = function() {
+        prev = app.selected && app.selected.previousElementSibling;
+        next = app.selected && app.selected.nextElementSibling;
+        if (back)  check(back, prev);
+        if (front) check(front, next);
+    };
+
+    var check = function(button, neighbor) {
+        button.disabled = !neighbor || !neighbor.classList.contains(app.config.itemClass);
+    };
 
 
 
-    function enableZindex(el) {
-        var prev, next;
+    app.on('ready', updateSiblings);
+    app.on('element:select', updateSiblings);
+    app.on('element:unselect', updateSiblings);
+    if (back)  back.addEventListener('click', moveToBack);
+    if (front) front.addEventListener('click', moveToFront);
 
-        function init() {
-            app.on('element:unselect', disableZindex);
-
-            if (back) back.addEventListener('click', moveToBack);
-            if (front) front.addEventListener('click', moveToFront);
-            setRefs();
-            if (back)  check(back, prev);
-            if (front) check(front, next);
-        }
-
-        function setRefs() {
-            prev = el.previousElementSibling;
-            next = el.nextElementSibling;
-        }
-
-        function check(button, neighbor) {
-            if (!neighbor || !neighbor.classList.contains(app.config.itemClass)) {
-                button.disabled = true;
-            }
-        }
-
-        function moveToBack() {
-            app.svg.insertBefore(el, prev);
-            setRefs();
-            check(back, prev);
-            if (front) front.disabled = false;
-            app.emit('element:change:z-index', el);
-        }
-
-        function moveToFront() {
-            app.svg.insertBefore(el, next.nextElementSibling);
-            setRefs();
-            check(front, next);
-            if (back) back.disabled = false;
-            app.emit('element:change:z-index', el);
-        }
-
-        function disableZindex() {
-            app.off('element:unselect', disableZindex);
-
-            if (back)  disable(back, moveToBack);
-            if (front) disable(front, moveToFront);
-        }
-
-        init();
-    }
-
-
-    function disable(button, handler) {
-        button.disabled = false;
-        button.removeEventListener('click', handler);
-    }
-
-}
+};
 
 
 module.exports = zIndexUpdate;

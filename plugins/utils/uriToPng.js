@@ -8,20 +8,20 @@ module.exports = function(url) {
 
     return new Promise(function(resolve) {
 
-      var image = new Image();
+        var image = new Image();
 
-      image.onload = function() {
-          canvas.width = image.width;
-          canvas.height = image.height;
-          context.drawImage(image, 0, 0);
-          resolve({
-              url: canvas.toDataURL('image/png'),
-              width: image.width,
-              height: image.height
-          });
-      };
+        image.onload = function() {
+            canvas.width = image.width;
+            canvas.height = image.height;
+            context.drawImage(image, 0, 0);
+            resolve({
+                url: canvas.toDataURL('image/png'),
+                width: image.width,
+                height: image.height
+            });
+        };
 
-      image.src = url;
+        image.src = url;
 
     });
 };

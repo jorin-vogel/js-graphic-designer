@@ -21,14 +21,6 @@ module.exports = function(obj) {
             if (subHandlers) handlers = handlers.concat(subHandlers);
         }
 
-        // NOTE: doesn't log names for once listeners
-        // DEBUG
-        console.log('EVENT: ', event, ' => ',
-            handlers.map(function(f) {
-                return f.name;
-            }).join(', ') || 'nothing to do ...'
-        );
-
         for (i = 0, handler; (handler = handlers[i]); ++i) {
             handler.apply(null, args);
         }

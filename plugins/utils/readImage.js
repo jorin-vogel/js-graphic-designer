@@ -4,8 +4,7 @@ var uriToPng = require('./uriToPng');
 
 module.exports = function(file) {
 
-    // TODO: warn if not image
-    if(!file.type.match(/image\/*/)) {
+    if (!file.type.match(/image\/*/)) {
         return Promise.reject();
     }
 
@@ -14,7 +13,9 @@ module.exports = function(file) {
         var reader = new FileReader();
 
         reader.onloadend = function() {
-            var blob = new Blob([this.result], { type: file.type });
+            var blob = new Blob([this.result], {
+                type: file.type
+            });
             var url = (window.URL || window.webkitURL || window).createObjectURL(blob);
             resolve(uriToPng(url));
         };

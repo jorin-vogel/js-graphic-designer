@@ -1,37 +1,20 @@
-function deleteButton(app, options) {
+var deleteButton = function(app, options) {
 
     var button = document.querySelector(options.element);
 
+    var deleteElement = function() {
+        if (!app.selected) return;
+        if (!window.confirm('Soll das ausgewählte Element echt gelöscht werden?')) return;
 
-    app.on('element:select', enableDelete);
+        app.selected.parentNode.removeChild(app.selected);
+        button.classList.add('hide');
+        button.removeEventListener('click', deleteElement);
+        app.emit('element:delete', app.selected);
+    };
 
+    button.addEventListener('click', deleteElement);
 
-
-    function enableDelete(el) {
-        button.classList.remove('hide');
-        button.addEventListener('click', deleteElement);
-        app.on('element:unselect', disableDelete);
-
-        function deleteElement() {
-            if (!window.confirm('Soll das ausgewählte Element echt gelöscht werden?')) return;
-            el.parentNode.removeChild(el);
-            button.classList.add('hide');
-            button.removeEventListener('click', deleteElement);
-            app
-                .off('element:unselect', disableDelete)
-                .emit('element:delete', el);
-        }
-
-        function disableDelete() {
-            app.off('element:unselect', disableDelete);
-
-            button.classList.add('hide');
-            button.removeEventListener('click', deleteElement);
-        }
-
-    }
-
-}
+};
 
 
 module.exports = deleteButton;

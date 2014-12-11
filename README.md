@@ -23,6 +23,7 @@ Initialize the _graphicDesigner_ with the following options:
 
 ```js
 var designer = window.graphicDesigner({
+
     // required:
     // the element to render the graphic
     element: '#designer',
@@ -75,6 +76,7 @@ var designer = window.graphicDesigner({
     // added to an item while you are dragging it
     // default:
     itemDragClass: 'dragging'
+
 });
 ````
 
@@ -106,6 +108,7 @@ Emits `background:change` event after user picked a color.
 
 ```js
 designer.backgroundColorPicker({
+
     // required:
     // querySelector for the element
     // which should be used to render the colorpicker to
@@ -120,6 +123,7 @@ designer.backgroundColorPicker({
     // color to be used as default background color
     // default:
     color: '#ffffff'
+
 });
 ```
 
@@ -132,10 +136,12 @@ Emits `cache:change` event each time the cache is updated.
 
 ```js
 designer.cache({
+
     // optional:
     // key for localStorage
     // default:
     storageKey: 'graphicDesignerGraphic'
+
 });
 ```
 
@@ -145,9 +151,11 @@ Emits `element:delete` event.
 
 ```js
 designer.deleteButton({
+
     // required:
     // querySelector for the element you want to act as button
     element: '#selector'
+
 });
 ```
 
@@ -160,15 +168,18 @@ Emits `element:create` event.
 
 ```js
 designer.imageUpload({
+
     // optional:
     // querySelector for button to trigger image upload
     // if no element set user can only upload via drag & drop
     element: '#selector',
+
     // optional:
     // class to add to body when user is dragging
     // a file in the page
     // if empty no body class is set
     dropBodyClass: 'drop-it'
+
 });
 ```
 
@@ -180,6 +191,7 @@ And you need to attributes to specify width and height.
 
 ```js
 designer.sizeSelect({
+
     // required:
     // querySelector of the <select> element to use
     element: '#selector',
@@ -193,6 +205,7 @@ designer.sizeSelect({
     // use a specific attribute to pass the height
     // default:
     heightAttribute: 'data-height'
+
 });
 ```
 
@@ -204,12 +217,15 @@ Emits `element:change:z-index` event.
 
 ```js
 designer.zIndexUpload({
+
     // optional:
     // querySelector
     toBack: '#selector1',
+
     // optional:
     // querySelector
     toFront: '#selector2'
+
 });
 ```
 

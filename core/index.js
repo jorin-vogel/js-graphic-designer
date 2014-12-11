@@ -19,7 +19,7 @@ var defaults = {
 
 
 
-function graphicDesigner(options) {
+var graphicDesigner = function(options) {
 
     var app = {};
 
@@ -68,24 +68,24 @@ function graphicDesigner(options) {
 
 
     return app;
-}
+};
 
 graphicDesigner.plugins = {};
 
 
-function mmToInch(mm) {
+var mmToInch = function(mm) {
     return Math.round(mm * 3.937) / 100;
-}
+};
 
 
 
-function addDefaults(options, defaults) {
+var addDefaults = function(options, defaults) {
     if (!options) options = {};
     if (defaults) Object.keys(defaults).forEach(function(key) {
         if (typeof options[key] === 'undefined') options[key] = defaults[key];
     });
     return options;
-}
+};
 
 
 

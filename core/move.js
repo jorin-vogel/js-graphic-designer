@@ -1,53 +1,55 @@
 module.exports = function(app) {
 
 
+    var cursorOffset;
     var animate = app.utils.animation();
 
-    app.container.addEventListener(app.utils.onDown(), drag);
 
-    function drag(e) {
-        var el = e.target;
-        var notElement = !el.classList.contains(app.config.itemClass);
-        if (notElement) return;
+    var drag = function(e) {
+        var isElement = e.target.classList.contains(app.config.itemSelectClass);
+        if (!isElement) return;
 
-        e.preventDefault(); // FF thing
+        e.preventDefault(); // Firefox thing
 
-        var pos = calcOffset(e, el);
+        cursorOffset = calcOffset(e, app.selected);
 
-        el.classList.add(app.config.itemDragClass);
+        app.selected.classList.add(app.config.itemDragClass);
 
         app.svg.addEventListener(app.utils.onMove(), updatePosition);
         document.addEventListener(app.utils.onUp(), drop);
-
-        function updatePosition(e) {
-            animate(function() {
-                app.utils.translateSvg(el, app.utils.pageX(e) - pos.x, app.utils.pageY(e) - pos.y);
-                app.emit('move', el);
-            });
-        }
-
-        function drop(e) {
-            e.preventDefault(); // FF thing
-
-            app.svg.removeEventListener(app.utils.onMove(), updatePosition);
-            document.removeEventListener(app.utils.onUp(), drop);
-
-            el.classList.remove(app.config.itemDragClass);
-
-            app.emit('element:change:position', el);
-        }
-    }
+    };
 
 
-    function calcOffset(e, el) {
+    var updatePosition = function(e) {
+        animate(function() {
+            app.utils.translateSvg(app.selected, app.utils.pageX(e) - cursorOffset.x, app.utils.pageY(e) - cursorOffset.y);
+            app.emit('move', app.selected);
+        });
+    };
+
+
+    var drop = function(e) {
+        e.preventDefault(); // FF thing
+
+        app.svg.removeEventListener(app.utils.onMove(), updatePosition);
+        document.removeEventListener(app.utils.onUp(), drop);
+
+        app.selected.classList.remove(app.config.itemDragClass);
+
+        app.emit('element:change:position', app.selected);
+    };
+
+
+    var calcOffset = function(e, el) {
         var pos = app.utils.translateSvg(el);
 
         return {
             x: app.utils.pageX(e) - pos.x,
             y: app.utils.pageY(e) - pos.y
         };
-    }
+    };
+
+
+    app.container.addEventListener(app.utils.onDown(), drag);
 
 };
-
-
