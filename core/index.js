@@ -18,12 +18,11 @@ var defaults = {
 };
 
 
-
 var graphicDesigner = function(options) {
 
     var app = {};
 
-    app.config = addDefaults(options, defaults);
+    app.config = utils.defaults(options, defaults);
 
     app.container = document.querySelector(app.config.element);
 
@@ -32,7 +31,7 @@ var graphicDesigner = function(options) {
     Object.keys(graphicDesigner.plugins).forEach(function(key) {
         app[key] = function(options) {
             var plugin = graphicDesigner.plugins[key];
-            plugin(app, addDefaults(options, plugin.defaults));
+            plugin(app, utils.defaults(options, plugin.defaults));
             return app;
         };
     });
@@ -40,14 +39,14 @@ var graphicDesigner = function(options) {
 
     app.setSize = function(width, height) {
         if (app.config.unit === 'mm') {
-            width  = mmToInch(width);
+            width = mmToInch(width);
             height = mmToInch(height);
         }
         if (app.config.unit !== 'pixel') {
-            width  = width  * app.config.dpi;
+            width = width * app.config.dpi;
             height = height * app.config.dpi;
         }
-        app.svg.setAttribute('width' , Math.round(width  * app.config.scaleFactor));
+        app.svg.setAttribute('width', Math.round(width * app.config.scaleFactor));
         app.svg.setAttribute('height', Math.round(height * app.config.scaleFactor));
 
         app.emit('svg:resize');
@@ -76,17 +75,6 @@ graphicDesigner.plugins = {};
 var mmToInch = function(mm) {
     return Math.round(mm * 3.937) / 100;
 };
-
-
-
-var addDefaults = function(options, defaults) {
-    if (!options) options = {};
-    if (defaults) Object.keys(defaults).forEach(function(key) {
-        if (typeof options[key] === 'undefined') options[key] = defaults[key];
-    });
-    return options;
-};
-
 
 
 module.exports = graphicDesigner;

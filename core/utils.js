@@ -63,6 +63,15 @@ utils.animation = function() {
 };
 
 
+utils.defaults = function(options, defaults) {
+    if (!options) options = {};
+    if (defaults) Object.keys(defaults).forEach(function(key) {
+        if (typeof options[key] === 'undefined') options[key] = defaults[key];
+    });
+    return options;
+};
+
+
 utils.isMobile = function() {
     return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase());
 };
@@ -85,6 +94,41 @@ utils.onDown = function() {
 
 utils.onUp = function() {
     return utils.isMobile() ? 'touchend' : 'mouseup';
+};
+
+
+utils.dragDrop = function(options) {
+
+    var config = utils.defaults(options, {
+        element: document,
+        start: function() {},
+        stop: function() {},
+        move: function() {},
+        enable: function() {
+            config.element.addEventListener(utils.onDown(), start);
+        },
+        disable: function() {
+            config.element.removeEventListener(utils.onDown(), start);
+        }
+    });
+
+    var start = function(e) {
+        var data = {};
+        if (config.start(e, data) === false) return;
+        var move = function(e) {
+            config.move(e, data);
+        };
+        var stop = function(e) {
+            config.stop(e, data);
+            config.element.removeEventListener(utils.onMove(), move);
+            config.element.removeEventListener(utils.onUp(), stop);
+        };
+        config.element.addEventListener(utils.onMove(), move);
+        config.element.addEventListener(utils.onUp(), stop);
+    };
+
+    config.enable();
+    return config;
 };
 
 
