@@ -52,13 +52,16 @@ var imageUpload = function(app, options) {
 
     var debounce = function(func, wait) {
         var timeout, args, next;
+
         return function debounced() {
             args = arguments;
             if (timeout) {
                 next = true;
                 return;
             }
+
             func.apply(null, args);
+
             timeout = setTimeout(function() {
                 clearTimeout(timeout);
                 timeout = undefined;
@@ -90,10 +93,12 @@ var imageUpload = function(app, options) {
         // NOTE: maybe there is a smarter way for this calcualtion ..
         var rect = app.svg.getBoundingClientRect();
         var factor = Math.min(rect.width / image.width, rect.height / image.height, 1);
+
         image.width = Math.round(factor * image.width);
         image.height = Math.round(factor * image.height);
         return image;
     };
+
 
     var center = function(image) {
         var rect = app.svg.getBoundingClientRect();
@@ -102,8 +107,10 @@ var imageUpload = function(app, options) {
         return image;
     };
 
+
     var create = function(image) {
         var el = app.utils.createSvg('image');
+
         el.setAttribute('height', image.height);
         el.setAttribute('width', image.width);
         el.setAttribute('class', app.config.itemClass);
@@ -115,10 +122,12 @@ var imageUpload = function(app, options) {
         app.emit('element:create', el);
     };
 
+
     var placeAt = function(event) {
         if (event.target !== app.svg) {
             return center;
         }
+
         return function(image) {
             var rect = app.svg.getBoundingClientRect();
             var top = rect.top + document.body.scrollTop;
@@ -140,5 +149,6 @@ var imageUpload = function(app, options) {
     if (button) button.addEventListener('click', triggerFileInput);
 
 };
+
 
 module.exports = imageUpload;

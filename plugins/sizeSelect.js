@@ -18,8 +18,9 @@ var sizeSelect = function(app, options) {
 
     var updateSize = function() {
         var selectedOption = selectBox.options[selectBox.selectedIndex];
-        var width  = selectedOption.getAttribute(options.widthAttribute);
+        var width = selectedOption.getAttribute(options.widthAttribute);
         var height = selectedOption.getAttribute(options.heightAttribute);
+
         app.svg.setAttribute('data-product', selectBox.value);
         app.setSize(width, height);
     };
@@ -32,5 +33,6 @@ var sizeSelect = function(app, options) {
 
 
 sizeSelect.defaults = defaults;
+
 
 module.exports = sizeSelect;

@@ -3,6 +3,7 @@ module.exports = function(obj) {
     var events = {};
     var slice = [].slice;
 
+
     obj.on = function(event, handler) {
         (events[event] = events[event] || []).push(handler);
         return obj;
@@ -21,7 +22,8 @@ module.exports = function(obj) {
             if (subHandlers) handlers = handlers.concat(subHandlers);
         }
 
-        for (i = 0, handler; (handler = handlers[i]); ++i) {
+        for (i = 0, handler;
+            (handler = handlers[i]); ++i) {
             handler.apply(null, args);
         }
 

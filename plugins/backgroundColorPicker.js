@@ -62,6 +62,7 @@ var backgroundColorPicker = function(app, options) {
 
     var eventPosition = function(e) {
         var rect = e.target.getBoundingClientRect();
+
         return {
             left: app.utils.pageX(e) - rect.left - document.body.scrollLeft,
             top: app.utils.pageY(e) - rect.top - document.body.scrollTop

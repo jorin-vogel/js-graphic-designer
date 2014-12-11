@@ -22,20 +22,15 @@ var graphicDesigner = function(options) {
 
     var app = {};
 
+    app.utils = utils;
+
     app.config = utils.defaults(options, defaults);
 
     app.container = document.querySelector(app.config.element);
 
-
-    // plugin activation shortcuts
-    Object.keys(graphicDesigner.plugins).forEach(function(key) {
-        app[key] = function(options) {
-            var plugin = graphicDesigner.plugins[key];
-            plugin(app, utils.defaults(options, plugin.defaults));
-            return app;
-        };
-    });
-
+    app.ready = function() {
+        app.emit('ready');
+    };
 
     app.setSize = function(width, height) {
         if (app.config.unit === 'mm') {
@@ -53,11 +48,14 @@ var graphicDesigner = function(options) {
     };
 
 
-    app.ready = function() {
-        app.emit('ready');
-    };
-
-    app.utils = utils;
+    // plugin activation shortcuts
+    Object.keys(graphicDesigner.plugins).forEach(function(key) {
+        app[key] = function(options) {
+            var plugin = graphicDesigner.plugins[key];
+            plugin(app, utils.defaults(options, plugin.defaults));
+            return app;
+        };
+    });
 
 
     eventEmitter(app);
@@ -68,6 +66,7 @@ var graphicDesigner = function(options) {
 
     return app;
 };
+
 
 graphicDesigner.plugins = {};
 

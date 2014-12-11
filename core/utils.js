@@ -25,6 +25,7 @@ utils.translateSvg = function(el) {
 var setTransformProp = function(el, prop, values) {
     var old = el.getAttribute('transform');
     var attr;
+
     if (!old) {
         attr = toTransformProp(prop, values);
     } else if (!old.match(prop)) {
@@ -32,16 +33,22 @@ var setTransformProp = function(el, prop, values) {
     } else {
         attr = old.replace(new RegExp(prop + '\\((.+?)\\)'), toTransformProp(prop, values));
     }
+
     return el.setAttribute('transform', attr);
 };
+
 
 var getTransformProp = function(el, prop) {
     var attr = el.getAttribute('transform');
     if (!attr) return;
+
     var raw = attr.match(prop + '\\((.+?)\\)');
     if (!raw) return;
+
     return raw[1].trim().split(' ').map(function(val) {
+
         return parseInt(val, 10);
+
     });
 };
 
@@ -65,9 +72,11 @@ utils.animation = function() {
 
 utils.defaults = function(options, defaults) {
     if (!options) options = {};
+
     if (defaults) Object.keys(defaults).forEach(function(key) {
         if (typeof options[key] === 'undefined') options[key] = defaults[key];
     });
+
     return options;
 };
 
@@ -83,6 +92,7 @@ utils.pageX = function(e) {
 utils.pageY = function(e) {
     return utils.isMobile() ? e.originalEvent.touches[0].pageY : e.pageY;
 };
+
 
 utils.onMove = function() {
     return utils.isMobile() ? 'touchmove' : 'mousemove';
@@ -100,34 +110,45 @@ utils.onUp = function() {
 utils.dragDrop = function(options) {
 
     var config = utils.defaults(options, {
+
         element: document,
         start: function() {},
         stop: function() {},
         move: function() {},
+
         enable: function() {
             config.element.addEventListener(utils.onDown(), start);
         },
+
         disable: function() {
             config.element.removeEventListener(utils.onDown(), start);
         }
+
     });
+
 
     var start = function(e) {
         var data = {};
+
         if (config.start(e, data) === false) return;
+
         var move = function(e) {
             config.move(e, data);
         };
+
         var stop = function(e) {
             config.stop(e, data);
             config.element.removeEventListener(utils.onMove(), move);
             config.element.removeEventListener(utils.onUp(), stop);
         };
+
         config.element.addEventListener(utils.onMove(), move);
         config.element.addEventListener(utils.onUp(), stop);
     };
 
+
     config.enable();
+
     return config;
 };
 
