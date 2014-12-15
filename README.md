@@ -233,7 +233,7 @@ designer.zIndexUpload({
 __Work in progress__
 
 There will be a proper guide on how to write a plugin but for now checkout those public properties to manipulate the behavior:
-`off`, `emit`, `config`, `container`, `svg`, `utils.createSvg`, `utils.translateSvg`, `utils.animation`, `utils.isMobile`, `utils.pageX`, `utils.pageY`, `utils.onMove`, `utils.onDown`, `utils.onUp`
+`off`, `emit`, `config`, `container`, `svg`, `utils.svgCreate`, `utils.svgTranslate`, `utils.animation`, `utils.isMobile`, `utils.pageX`, `utils.pageY`, `utils.onMove`, `utils.onDown`, `utils.onUp`
 
 
 ## Development

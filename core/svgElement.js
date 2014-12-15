@@ -1,6 +1,6 @@
 module.exports = function(app) {
 
-    var svg = app.utils.createSvg('svg');
+    var svg = app.utils.svgCreate('svg');
 
     app.container.innerHTML = ''; // empty first
     app.container.appendChild(svg);

@@ -109,14 +109,14 @@ var imageUpload = function(app, options) {
 
 
     var create = function(image) {
-        var el = app.utils.createSvg('image');
+        var el = app.utils.svgCreate('image');
 
         el.setAttribute('height', image.height);
         el.setAttribute('width', image.width);
         el.setAttribute('class', app.config.itemClass);
         el.setAttributeNS('http://www.w3.org/1999/xlink', 'href', image.url);
 
-        app.utils.translateSvg(el, image.x, image.y);
+        app.utils.svgTranslate(el, image.x, image.y);
 
         app.svg.appendChild(el);
         app.emit('element:create', el);

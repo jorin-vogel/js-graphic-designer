@@ -20,9 +20,14 @@ module.exports = function(app) {
 
     var select = function(el) {
         clean();
+        var group = app.utils.svgCreate('g');
         el.classList.add(app.config.itemSelectClass);
+        group.appendChild(el);
+        app.svg.appendChild(group);
+        group.setAttribute('transform', el.getAttribute('transform'));
+        el.setAttribute('transform', '');
         bodyClass(true);
-        app.selected = el;
+        app.selected = group;
         app.emit('element:select', el);
     };
 
@@ -31,7 +36,11 @@ module.exports = function(app) {
         if (!el) el = getSelected();
         if (!el) return;
 
+        var group = el.parentNode;
         el.classList.remove(app.config.itemSelectClass);
+        app.svg.appendChild(el);
+        el.setAttribute('transform', group.getAttribute('transform'));
+        group.parentNode.removeChild(group);
         bodyClass(false);
         app.selected = undefined;
         app.emit('element:unselect', el);

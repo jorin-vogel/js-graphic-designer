@@ -1,12 +1,12 @@
 var utils = {};
 
 
-utils.createSvg = function(tag) {
+utils.svgCreate = function(tag) {
     return document.createElementNS('http://www.w3.org/2000/svg', tag);
 };
 
 
-utils.translateSvg = function(el) {
+utils.svgTranslate = function(el) {
     var values = Array.prototype.slice.call(arguments, 1);
     if (values.length) return setTransformProp(el, 'translate', values);
 
@@ -19,6 +19,18 @@ utils.translateSvg = function(el) {
         x: prop[0],
         y: prop[prop.length - 1]
     };
+};
+
+
+utils.svgWidth = function(el, val) {
+    if (val) return el.setAttribute('width', val);
+    return parseInt(el.getAttribute('width'), 10);
+};
+
+
+utils.svgHeight = function(el, val) {
+    if (val) return el.setAttribute('height', val);
+    return parseInt(el.getAttribute('height'), 10);
 };
 
 
@@ -138,12 +150,12 @@ utils.dragDrop = function(options) {
 
         var stop = function(e) {
             config.stop(e, data);
-            config.element.removeEventListener(utils.onMove(), move);
-            config.element.removeEventListener(utils.onUp(), stop);
+            document.removeEventListener(utils.onMove(), move);
+            document.removeEventListener(utils.onUp(), stop);
         };
 
-        config.element.addEventListener(utils.onMove(), move);
-        config.element.addEventListener(utils.onUp(), stop);
+        document.addEventListener(utils.onMove(), move);
+        document.addEventListener(utils.onUp(), stop);
     };
 
 

@@ -20,7 +20,7 @@ var backgroundColorPicker = function(app, options) {
 
 
     var createBackground = function() {
-        var bg = app.utils.createSvg('rect');
+        var bg = app.utils.svgCreate('rect');
 
         bg.setAttribute('fill', options.color);
         bg.setAttribute('width', '100%');

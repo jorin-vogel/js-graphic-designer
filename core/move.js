@@ -19,7 +19,7 @@ module.exports = function(app) {
 
         move: function(e, data) {
             animate(function() {
-                app.utils.translateSvg(app.selected, app.utils.pageX(e) - data.cursorOffset.x, app.utils.pageY(e) - data.cursorOffset.y);
+                app.utils.svgTranslate(app.selected, app.utils.pageX(e) - data.cursorOffset.x, app.utils.pageY(e) - data.cursorOffset.y);
                 app.emit('move', app.selected);
             });
         },
@@ -35,7 +35,7 @@ module.exports = function(app) {
 
 
     var calcOffset = function(e, el) {
-        var pos = app.utils.translateSvg(el);
+        var pos = app.utils.svgTranslate(el);
 
         return {
             x: app.utils.pageX(e) - pos.x,
