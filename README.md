@@ -210,13 +210,13 @@ designer.sizeSelect({
 ```
 
 
-### zIndexUpload
+### zIndexUpdate
 Add buttons to move the selected element back and forth.
 You don't have to specify both buttons if you just need one.
 Emits `element:change:z-index` event.
 
 ```js
-designer.zIndexUpload({
+designer.zIndexUpdate({
 
     // optional:
     // querySelector
@@ -228,6 +228,30 @@ designer.zIndexUpload({
 
 });
 ```
+
+
+### scaling
+
+```js
+designer.scaling({
+
+    // required:
+    // url or path to scaling icon
+    image: 'image/scale.svg',
+
+    // optional:
+    // width of icon in pixel
+    // default:
+    iconWidth: 20
+
+    // optional:
+    // height of icon in pixel
+    // default:
+    iconHeight: 20
+
+});
+```
+
 
 ## Write a Plugin
 __Work in progress__
@@ -241,7 +265,7 @@ There will be a proper guide on how to write a plugin but for now checkout those
 If you want to modify your _js-graphic-designer_ or contribute to the project:
 
 - First run `npm install`
-- Serve _index.html_ with your favorite web server or run `npm run-script server`
-- For development run `npm run-script watch`
-- To build _graphicDesigner.min.js_ run `npm run-script build`
+- Serve _index.html_ with your favorite web server or run `npm run server`
+- For development run `npm run watch`
+- To build _graphicDesigner.min.js_ run `npm run build`
 

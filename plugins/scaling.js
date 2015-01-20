@@ -1,6 +1,6 @@
 var defaults = {
-    width: 20,
-    height: 20
+    iconWidth: 20,
+    iconHeight: 20
 };
 
 
@@ -11,8 +11,8 @@ var scaling = function(app, options) {
 
     var scaler = app.utils.svgCreate('image');
     scaler.setAttributeNS('http://www.w3.org/1999/xlink', 'href', options.image);
-    scaler.setAttribute('width', options.width);
-    scaler.setAttribute('height', options.height);
+    scaler.setAttribute('width', options.iconWidth);
+    scaler.setAttribute('height', options.iconHeight);
 
     app.on('element:select', function(item) {
         el = item;
@@ -56,6 +56,7 @@ var scaling = function(app, options) {
                     scaler.setAttribute('y', height);
                     app.utils.svgHeight(el, height);
                 }
+                app.emit('resize', el);
             });
         },
 

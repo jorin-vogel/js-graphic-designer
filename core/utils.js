@@ -22,6 +22,15 @@ utils.svgTranslate = function(el) {
 };
 
 
+utils.svgRotate = function(el) {
+    var values = Array.prototype.slice.call(arguments, 1);
+    if (values.length) return setTransformProp(el, 'rotate', values);
+
+    var prop = getTransformProp(el, 'rotate');
+    return prop ? prop[0] : 0;
+};
+
+
 utils.svgWidth = function(el, val) {
     if (val) return el.setAttribute('width', val);
     return parseInt(el.getAttribute('width'), 10);
