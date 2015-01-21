@@ -17,18 +17,18 @@ var rotating = function(app, options) {
     rotater.setAttribute('height', options.iconHeight);
 
 
-    var setY = function() {
+    var updateRotaterX = function() {
         rotater.setAttribute('x', el.getAttribute('width'));
     };
 
     app.on('element:select', function(item) {
         el = item;
-        setY();
+        updateRotaterX();
         rotater.setAttribute('y', -options.iconHeight);
         app.selected.appendChild(rotater);
     });
 
-    app.on('resize', setY);
+    app.on('resize', updateRotaterX);
 
     app.utils.dragDrop({
 
@@ -38,13 +38,13 @@ var rotating = function(app, options) {
             e.stopPropagation();
 
             var rect = app.svg.getBoundingClientRect();
-            var top = rect.top + document.body.scrollTop;
             var left = rect.left + document.body.scrollLeft;
-            data.pos = app.utils.svgTranslate(el);
+            var top = rect.top + document.body.scrollTop;
+            data.pos = app.utils.svgTranslate(app.selected);
             data.pos.x += left;
             data.pos.y += top;
 
-            data.start = app.utils.svgRotate(el);
+            // data.start = app.utils.svgRotate(el);
 
             app.container.classList.add('rotating');
         },
@@ -54,10 +54,10 @@ var rotating = function(app, options) {
 
             animate(function() {
 
-                var a = data.pos.y - app.utils.pageY(e);
-                var b = app.utils.pageX(e) - data.pos.x;
-                var alpha = -Math.atan(a, b) * RAD_TO_DEG;
-                console.log(alpha)
+                var x = app.utils.pageX(e) - data.pos.x;
+                var y = data.pos.y - app.utils.pageY(e);
+                var alpha = -Math.atan2(y, x) * RAD_TO_DEG;
+
                 app.utils.svgRotate(app.selected, alpha);
 
                 app.emit('rotate', el);
