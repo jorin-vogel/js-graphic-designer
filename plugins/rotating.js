@@ -38,13 +38,9 @@ var rotating = function(app, options) {
             e.stopPropagation();
 
             var rect = app.svg.getBoundingClientRect();
-            var left = rect.left + document.body.scrollLeft;
-            var top = rect.top + document.body.scrollTop;
             data.pos = app.utils.svgTranslate(app.selected);
-            data.pos.x += left;
-            data.pos.y += top;
-
-            // data.start = app.utils.svgRotate(el);
+            data.pos.x += rect.left + document.body.scrollLeft;
+            data.pos.y += rect.top + document.body.scrollTop;
 
             app.container.classList.add('rotating');
         },
@@ -53,7 +49,6 @@ var rotating = function(app, options) {
             e.preventDefault(); // for touch events
 
             animate(function() {
-
                 var x = app.utils.pageX(e) - data.pos.x;
                 var y = data.pos.y - app.utils.pageY(e);
                 var alpha = -Math.atan2(y, x) * RAD_TO_DEG;

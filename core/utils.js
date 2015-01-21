@@ -107,11 +107,11 @@ utils.isMobile = function() {
 };
 
 utils.pageX = function(e) {
-    return utils.isMobile() ? e.originalEvent.touches[0].pageX : e.pageX;
+    return utils.isMobile() ? e.touches[0].pageX : e.pageX;
 };
 
 utils.pageY = function(e) {
-    return utils.isMobile() ? e.originalEvent.touches[0].pageY : e.pageY;
+    return utils.isMobile() ? e.touches[0].pageY : e.pageY;
 };
 
 
