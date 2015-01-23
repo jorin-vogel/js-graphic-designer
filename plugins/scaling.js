@@ -14,12 +14,21 @@ var scaling = function(app, options) {
     scaler.setAttribute('width', options.iconWidth);
     scaler.setAttribute('height', options.iconHeight);
 
+
+    var updateScalerPos = function() {
+        scaler.setAttribute('x', el.getBBox().width);
+        scaler.setAttribute('y', el.getBBox().height);
+    };
+
+
     app.on('element:select', function(item) {
         el = item;
-        scaler.setAttribute('x', el.getAttribute('width'));
-        scaler.setAttribute('y', el.getAttribute('height'));
+        updateScalerPos();
         app.selected.appendChild(scaler);
     });
+
+    app.on('resize', updateScalerPos);
+
 
     app.utils.dragDrop({
 
@@ -27,6 +36,7 @@ var scaling = function(app, options) {
 
         start: function(e, data) {
             e.stopPropagation();
+            e.preventDefault(); // Firefox thing
 
             var posScaler = scaler.getBoundingClientRect();
 
@@ -47,6 +57,12 @@ var scaling = function(app, options) {
                 var width = app.utils.pageX(e) - data.offsetX - posEl.left;
                 var height = app.utils.pageY(e) - data.offsetY - posEl.top;
 
+                if (el.tagName === 'text') {
+                    scaler.style.display = 'none';
+                    app.emit('text:scale', height);
+                    return;
+                }
+
                 // don't make element to small or negative size
                 if (width > minSize) {
                     scaler.setAttribute('x', width);
@@ -56,11 +72,13 @@ var scaling = function(app, options) {
                     scaler.setAttribute('y', height);
                     app.utils.svgHeight(el, height);
                 }
-                app.emit('resize', el);
+
+                app.emit('resize');
             });
         },
 
         stop: function() {
+            if (el.tagName === 'text') scaler.style.display = 'initial';
             app.container.classList.remove('resizing');
             app.emit('element:resize', el);
         }

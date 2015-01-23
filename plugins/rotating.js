@@ -17,18 +17,18 @@ var rotating = function(app, options) {
     rotater.setAttribute('height', options.iconHeight);
 
 
-    var updateRotaterX = function() {
-        rotater.setAttribute('x', el.getAttribute('width'));
+    var updateRotaterPos = function() {
+        rotater.setAttribute('x', el.getBBox().width);
+        rotater.setAttribute('y', -options.iconHeight + el.getBBox().y);
     };
 
     app.on('element:select', function(item) {
         el = item;
-        updateRotaterX();
-        rotater.setAttribute('y', -options.iconHeight);
+        updateRotaterPos();
         app.selected.appendChild(rotater);
     });
 
-    app.on('resize', updateRotaterX);
+    app.on('resize', updateRotaterPos);
 
     app.utils.dragDrop({
 
@@ -36,6 +36,7 @@ var rotating = function(app, options) {
 
         start: function(e, data) {
             e.stopPropagation();
+            e.preventDefault(); // Firefox thing
 
             var rect = app.svg.getBoundingClientRect();
             data.pos = app.utils.svgTranslate(app.selected);

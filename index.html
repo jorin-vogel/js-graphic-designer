@@ -8,10 +8,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <style>
-            .item-settings {
+            .item {
+                cursor: pointer;
+            }
+            .item-settings, .text-settings {
                 display: none;
             }
-            .item-selected .item-settings {
+            .item-selected .item-settings, .text-selected .text-settings {
                 display: block;
             }
             #background-color {
@@ -20,6 +23,10 @@
             }
             .selected {
                 outline: 1px solid #f00;
+                cursor: move;
+            }
+            .text-font {
+                cursor: pointer;
             }
             svg {
                 -moz-transition: width 0.4s ease-out, height 0.4s ease-out;
@@ -28,6 +35,7 @@
                 -ms-transition: width 0.4s ease-out, height 0.4s ease-out;
                 transition: width 0.4s ease-out, height 0.4s ease-out;
             }
+
         </style>
     </head>
     <body>
@@ -50,18 +58,39 @@
             </select>
 
             <button id="preview">Preview</button>
+            <button id="create-text">Create Text</button>
         </p>
 
-        <p>
-            Choose Background: <div id="background-color"></div>
-        </p>
+        <div>
+            <h3>Background</h3>
+            <div id="background-color"></div>
+        </div>
 
         <p class="item-settings">
-            <span>Item Settings:</span>
+            <h3>Item Settings</h3>
             <button id="to-back">Move to Back</button>
             <button id="to-front">Move to Front</button>
             <button id="destroy">Delete</button>
         </p>
+
+        <div class="text-settings">
+            <h3>Text Settings</h3>
+            <input id="text-input" type="text" placeholder="Insert Some Text">
+            <div id="text-color" style="margin-top: 10px"></div>
+            <ul>
+                <li class="text-font" data-font="'Helvetica Neue',Helvetica,Arial,sans-serif" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif">Helvetica</li>
+                <li class="text-font" data-font="'Brush Script MT',cursive" style="font-family: 'Brush Script MT',cursive">Brush Script MT</li>
+                <li class="text-font" data-font="Papyrus,fantasy" style="font-family: Papyrus,fantasy">Papyrus</li>
+                <li class="text-font" data-font="Copperplate,'Copperplate Gothic Light',fantasy" style="font-family: Copperplate,'Copperplate Gothic Light',fantasy">Copperplate</li>
+                <li class="text-font" data-font="'Lucida Sans Typewriter','Lucida Console',monaco,'Bitstream Vera Sans Mono',monospace" style="font-family: 'Lucida Sans Typewriter','Lucida Console',monaco,'Bitstream Vera Sans Mono',monospace">Lucida Sans Typewriter</li>
+                <li class="text-font" data-font="Palatino,'Palatino Linotype','Palatino LT STD','Book Antiqua',Georgia,serif" style="font-family: Palatino,'Palatino Linotype','Palatino LT STD','Book Antiqua',Georgia,serif">Palatino</li>
+                <li class="text-font" data-font="Optima,Segoe,'Segoe UI',Candara,Calibri,Arial,sans-serif" style="font-family: Optima,Segoe,'Segoe UI',Candara,Calibri,Arial,sans-serif">Optima</li>
+                <li class="text-font" data-font="Verdana,Geneva,sans-serif" style="font-family: Verdana,Geneva,sans-serif">Verdana</li>
+                <li class="text-font" data-font="'Arial Narrow',Arial,sans-serif" style="font-family: 'Arial Narrow',Arial,sans-serif">Arial Narrow</li>
+                <li class="text-font" data-font="'Arial Rounded MT Bold','Helvetica Rounded',Arial,sans-serif" style="font-family: 'Arial Rounded MT Bold','Helvetica Rounded',Arial,sans-serif">Arial Rounded MT Bold</li>
+                <li class="text-font" data-font="'Gill Sans','Gill Sans MT',Calibri,sans-serif" style="font-family: 'Gill Sans','Gill Sans MT',Calibri,sans-serif">Gill Sans</li>
+            </ul>
+        </div>
 
 
         <script src="graphicDesigner.min.js"></script>
@@ -85,6 +114,12 @@
             .imageUpload({
                 element: '#image-upload',
                 dropBodyClass: 'image-drop'
+            })
+            .textInput({
+                createButton: '#create-text',
+                input: '#text-input',
+                colorPicker: '#text-color',
+                colorImage: 'colorpicker.png'
             })
             .deleteButton({
                 element: '#destroy',

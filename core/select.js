@@ -22,10 +22,11 @@ module.exports = function(app) {
         clean();
         var group = app.utils.svgCreate('g');
         el.classList.add(app.config.itemSelectClass);
-        group.appendChild(el);
-        app.svg.appendChild(group);
         group.setAttribute('transform', el.getAttribute('transform'));
         el.setAttribute('transform', '');
+        var neighbor = el.nextSibling;
+        group.appendChild(el);
+        app.svg.insertBefore(group, neighbor);
         bodyClass(true);
         app.selected = group;
         app.emit('element:select', el);
@@ -37,10 +38,11 @@ module.exports = function(app) {
         if (!el) return;
 
         var group = el.parentNode;
-        el.classList.remove(app.config.itemSelectClass);
-        app.svg.appendChild(el);
-        el.setAttribute('transform', group.getAttribute('transform'));
+        var neighbor = group.nextSibling;
         group.parentNode.removeChild(group);
+        el.classList.remove(app.config.itemSelectClass);
+        el.setAttribute('transform', group.getAttribute('transform'));
+        app.svg.insertBefore(el, neighbor);
         bodyClass(false);
         app.selected = undefined;
         app.emit('element:unselect', el);
