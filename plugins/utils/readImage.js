@@ -1,5 +1,5 @@
 var Promise = require('promiscuous');
-var uriToPng = require('./uriToPng');
+var uriToPng = require('../../core/uriToPng');
 
 
 module.exports = function(file) {

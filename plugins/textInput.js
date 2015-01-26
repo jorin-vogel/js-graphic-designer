@@ -20,6 +20,7 @@ var textInput = function(app, options) {
 
     var el;
 
+
     var inputField = document.querySelector(options.input);
 
 
@@ -109,6 +110,7 @@ var textInput = function(app, options) {
     app.on('element:select', updateInputs);
     app.on('element:unselect', removeBodyClass);
     app.on('text:scale', resize);
+
 };
 
 textInput.defaults = defaults;

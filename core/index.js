@@ -3,6 +3,7 @@ var svgElement = require('./svgElement');
 var select = require('./select');
 var move = require('./move');
 var utils = require('./utils');
+var uriToPng = require('./uriToPng');
 
 
 var defaults = {
@@ -30,7 +31,9 @@ var graphicDesigner = function(options) {
 
     app.ready = function() {
         app.emit('ready');
+        return app;
     };
+
 
     app.setSize = function(width, height) {
         if (app.config.unit === 'mm') {
@@ -45,6 +48,34 @@ var graphicDesigner = function(options) {
         app.svg.setAttribute('height', Math.round(height * app.config.scaleFactor));
 
         app.emit('svg:resize');
+
+        return app;
+    };
+
+
+    app.createPng = function() {
+            app.emit('render');
+
+            var node = app.svg;
+
+            // use original DPI
+            var w = parseInt(node.getAttribute('width'), 10);
+            var h = parseInt(node.getAttribute('height'), 10);
+            node.setAttribute('width' , w / app.config.scaleFactor);
+            node.setAttribute('height', h / app.config.scaleFactor);
+            node.setAttribute('viewBox', '0 0 '+w+' '+h);
+
+            // http://www.timvasil.com/blog14/post/2014/02/06/How-to-convert-an-SVG-image-into-a-static-image-with-only-JavaScript.aspx
+            var svgData = new XMLSerializer().serializeToString(node);
+            var blob = new Blob([svgData], { type: 'image/svg+xml' });
+            var url = (window.URL || window.webkitURL || window).createObjectURL(blob);
+
+            // reset to work size
+            node.setAttribute('width' , w);
+            node.setAttribute('height', h);
+            node.removeAttribute('viewBox');
+
+            return uriToPng(url);
     };
 
 

@@ -35,16 +35,15 @@ module.exports = function(app) {
 
     var clean = function(el) {
         if (!el) el = getSelected();
-        if (!el) return;
-
+        bodyClass(false);
+        app.selected = undefined;
+        if (!el) return app.emit('element:unselect');
         var group = el.parentNode;
         var neighbor = group.nextSibling;
         group.parentNode.removeChild(group);
         el.classList.remove(app.config.itemSelectClass);
         el.setAttribute('transform', group.getAttribute('transform'));
         app.svg.insertBefore(el, neighbor);
-        bodyClass(false);
-        app.selected = undefined;
         app.emit('element:unselect', el);
     };
 

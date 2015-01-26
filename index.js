@@ -13,6 +13,7 @@ graphicDesigner.plugins.backgroundColorPicker = require('./plugins/backgroundCol
 graphicDesigner.plugins.sizeSelect            = require('./plugins/sizeSelect');
 graphicDesigner.plugins.scaling               = require('./plugins/scaling');
 graphicDesigner.plugins.rotating              = require('./plugins/rotating');
+graphicDesigner.plugins.preview               = require('./plugins/preview');
 
 
 window.graphicDesigner = graphicDesigner;
