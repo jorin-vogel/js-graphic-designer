@@ -4,6 +4,7 @@ var select = require('./select');
 var move = require('./move');
 var utils = require('./utils');
 var uriToPng = require('./uriToPng');
+var uriToBlob = require('./uriToBlob');
 
 
 var defaults = {
@@ -76,6 +77,13 @@ var graphicDesigner = function(options) {
             node.removeAttribute('viewBox');
 
             return uriToPng(url);
+    };
+
+
+    app.createBlob = function() {
+        return app.createPng().then(function(png) {
+            return uriToBlob(png.url);
+        });
     };
 
 

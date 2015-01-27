@@ -36,7 +36,7 @@ var backgroundColorPicker = function(app, options) {
 
 
     var done = function() {
-        app.emit('background:change', background.fill);
+        app.emit('background:change', background.getAttribute('fill'));
     };
 
 

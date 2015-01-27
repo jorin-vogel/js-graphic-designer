@@ -22,6 +22,7 @@ var textInput = function(app, options) {
 
 
     var inputField = document.querySelector(options.input);
+    inputField.setAttribute('placeholder', options.placeholder);
 
 
     var addBodyClass = function() {
@@ -38,7 +39,7 @@ var textInput = function(app, options) {
 
         el = item;
 
-        inputField.value = el.innerHTML;
+        inputField.value = el.innerHTML !== options.placeholder ? el.innerHTML : '';
 
         addBodyClass();
     };
@@ -56,6 +57,8 @@ var textInput = function(app, options) {
 
         app.svg.appendChild(el);
         app.emit('element:create', el);
+
+        inputField.focus();
     };
 
 
