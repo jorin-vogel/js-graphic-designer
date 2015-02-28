@@ -22,6 +22,8 @@ var scaling = function(app, options) {
 
 
     app.on('element:select', function(item) {
+        // only enable scaling for images in the moment
+        if (item.tagName !== 'image') return;
         el = item;
         updateScalerPos();
         app.selected.appendChild(scaler);
