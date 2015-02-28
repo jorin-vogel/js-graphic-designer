@@ -32,15 +32,12 @@ var preview = function(app, options) {
             'preview',
             windowOptions.join(',') + ',width=' + tempPng.width + ',height=' + tempPng.height
         );
-
-        tempPng = undefined;
     };
 
 
     button.addEventListener('click', function() {
         if (tempPng) {
             openWindow();
-            document.body.classList.remove(options.readyClass);
             app.emit('preview:open');
             return;
         }
@@ -48,9 +45,17 @@ var preview = function(app, options) {
         app.createPng().then(function(png) {
             tempPng = png;
             document.body.classList.add(options.readyClass);
+            document.addEventListener('click', reset);
             app.emit('preview:ready');
         });
     });
+
+
+    var reset = function() {
+        tempPng = undefined;
+        document.body.classList.remove(options.readyClass);
+        document.removeEventListener('click', reset);
+    };
 
 };
 

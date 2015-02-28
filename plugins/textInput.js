@@ -41,6 +41,9 @@ var textInput = function(app, options) {
 
         inputField.value = el.innerHTML !== options.placeholder ? el.innerHTML : '';
 
+        app.emit('text:select:font', el.style.fontFamily);
+        app.emit('text:select:color', el.style.fill);
+
         addBodyClass();
     };
 

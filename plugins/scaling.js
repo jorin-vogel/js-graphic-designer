@@ -41,7 +41,7 @@ var scaling = function(app, options) {
             var posScaler = scaler.getBoundingClientRect();
 
             data.offsetX = app.utils.pageX(e) - (posScaler.left + document.body.scrollLeft);
-            data.offsetY = app.utils.pageY(e) - (posScaler.top + document.body.scrollTop);
+            data.offsetY = app.utils.pageY(e) - (posScaler.top);
 
             app.container.classList.add('resizing');
         },
