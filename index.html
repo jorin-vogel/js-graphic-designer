@@ -82,6 +82,7 @@
         <div class="text-settings">
             <h3>Text Settings</h3>
             <input id="text-input" type="text" placeholder="Insert Some Text">
+            <input id="text-size-input" type="number">
             <div id="text-color" style="margin-top: 10px"></div>
             <ul>
                 <li class="text-font" data-font="'Helvetica Neue',Helvetica,Arial,sans-serif" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif">Helvetica</li>
@@ -125,7 +126,8 @@
                 createButton: '#create-text',
                 input: '#text-input',
                 colorPicker: '#text-color',
-                colorImage: 'colorpicker.png'
+                colorImage: 'colorpicker.png',
+                sizeInput: '#text-size-input'
             })
             .deleteButton({
                 element: '#destroy',

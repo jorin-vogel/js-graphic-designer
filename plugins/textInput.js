@@ -11,7 +11,8 @@ var defaults = {
     textHeight: 30,
     placeholder: 'Insert Text …',
     scaleFactor: 1,
-    scaleOffset: 5
+    scaleOffset: 5,
+    fontSize: 15
 };
 
 
@@ -24,6 +25,9 @@ var textInput = function(app, options) {
     var inputField = document.querySelector(options.input);
     inputField.setAttribute('placeholder', options.placeholder);
 
+    var sizeInputField = document.querySelector(options.sizeInput);
+    sizeInputField.value = options.fontSize;
+    sizeInputField.setAttribute('min', 0);
 
     var addBodyClass = function() {
         document.body.classList.add(options.selectBodyClass);
@@ -40,6 +44,7 @@ var textInput = function(app, options) {
         el = item;
 
         inputField.value = el.innerHTML !== options.placeholder ? el.innerHTML : '';
+        sizeInputField.value = getFontSize(el);
 
         app.emit('text:select:font', el.style.fontFamily);
         app.emit('text:select:color', el.style.fill);
@@ -72,10 +77,8 @@ var textInput = function(app, options) {
     };
 
 
-    var resize = function(h) {
-        var size = h * options.scaleFactor + options.scaleOffset;
-        if (size < options.scaleOffset) return;
-        el.style.fontSize = size;
+    var updateSize = function() {
+        el.style.fontSize = sizeInputField.value;
         app.emit('resize');
         app.emit('element:font:resize');
     };
@@ -99,6 +102,11 @@ var textInput = function(app, options) {
     };
 
 
+    var getFontSize = function(el) {
+        return el.style.fontSize.match(/[0-9]+/) || options.fontSize;
+    };
+
+
     colorPicker(app, {
         element: options.colorPicker,
         image: options.colorImage
@@ -108,14 +116,18 @@ var textInput = function(app, options) {
     document.addEventListener('click', updateFont);
 
     inputField.addEventListener('change', updateText);
+    inputField.addEventListener('input', updateText);
     inputField.addEventListener('keyup', updateText);
+
+    sizeInputField.addEventListener('change', updateSize);
+    sizeInputField.addEventListener('input', updateSize);
+    sizeInputField.addEventListener('keyup', updateSize);
 
     document.querySelector(options.createButton)
         .addEventListener('click', createText);
 
     app.on('element:select', updateInputs);
     app.on('element:unselect', removeBodyClass);
-    app.on('text:scale', resize);
 
 };
 

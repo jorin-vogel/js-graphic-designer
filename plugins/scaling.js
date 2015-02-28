@@ -22,7 +22,7 @@ var scaling = function(app, options) {
 
 
     app.on('element:select', function(item) {
-        // only enable scaling for images in the moment
+        // // only enable scaling for images in the moment
         if (item.tagName !== 'image') return;
         el = item;
         updateScalerPos();
@@ -59,12 +59,6 @@ var scaling = function(app, options) {
                 var width = app.utils.pageX(e) - data.offsetX - posEl.left;
                 var height = app.utils.pageY(e) - data.offsetY - posEl.top;
 
-                if (el.tagName === 'text') {
-                    scaler.style.display = 'none';
-                    app.emit('text:scale', height);
-                    return;
-                }
-
                 // don't make element to small or negative size
                 if (width > minSize) {
                     scaler.setAttribute('x', width);
@@ -80,7 +74,6 @@ var scaling = function(app, options) {
         },
 
         stop: function() {
-            if (el.tagName === 'text') scaler.style.display = 'initial';
             app.container.classList.remove('resizing');
             app.emit('element:resize', el);
         }
