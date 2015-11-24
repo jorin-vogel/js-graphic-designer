@@ -28,10 +28,11 @@ module.exports = function(app, options, update, done) {
 
     var eventPosition = function(e) {
         var rect = e.target.getBoundingClientRect();
+        console.log(app.utils.pageY(e) , rect.top , jQuery(document).scrollTop());
 
         return {
-            left: app.utils.pageX(e) - rect.left - document.body.scrollLeft,
-            top: app.utils.pageY(e) - rect.top - document.body.scrollTop
+            left: app.utils.pageX(e) - rect.left - jQuery(document).scrollLeft(),
+            top: app.utils.pageY(e) - rect.top - jQuery(document).scrollTop()
         };
     };
 

@@ -1,6 +1,4 @@
 var colorPicker = require('./utils/colorPicker');
-require('./utils/matchesSelector.poly');
-
 
 var defaults = {
     selectBodyClass: 'text-selected',
@@ -73,19 +71,27 @@ var textInput = function(app, options) {
     var updateText = function() {
         el.innerHTML = inputField.value || options.placeholder;
         app.emit('element:change:text', el);
-        app.emit('resize');
+        app.emit('resize', el);
     };
 
 
     var updateSize = function() {
-        el.style.fontSize = sizeInputField.value;
-        app.emit('resize');
+        el.style.fontSize = sizeInputField.value + 'px';
+        app.emit('resize', el);
         app.emit('element:font:resize');
     };
 
 
+    var matchesSelector = function (node, selector) {
+        var nodes = (node.parentNode || document).querySelectorAll(selector), i = -1;
+
+        while (nodes[++i] && nodes[i] != node);
+
+        return !!nodes[i];
+    };
+
     var updateFont = function(e) {
-        if (! e.target.matchesSelector(options.fontSelector) ) return;
+        if (! matchesSelector(e.target, options.fontSelector) ) return;
 
         el.style.fontFamily = e.target.getAttribute(options.fontAttribute);
         app.emit('element:change:font', el);

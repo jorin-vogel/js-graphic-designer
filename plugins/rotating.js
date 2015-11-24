@@ -40,8 +40,8 @@ var rotating = function(app, options) {
 
             var rect = app.svg.getBoundingClientRect();
             data.pos = app.utils.svgTranslate(app.selected);
-            data.pos.x += rect.left + document.body.scrollLeft;
-            data.pos.y += rect.top + document.body.scrollTop;
+            data.pos.x += rect.left + jQuery(document).scrollLeft();
+            data.pos.y += rect.top + jQuery(document).scrollTop();
 
             app.container.classList.add('rotating');
         },

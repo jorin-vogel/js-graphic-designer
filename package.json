@@ -4,9 +4,9 @@
   "description": "Let your users design their own graphics on your website",
   "main": "index.js",
   "scripts": {
-    "build": "node_modules/.bin/webpack --optimize-minimize index.js graphicDesigner.min.js",
-    "watch": "node_modules/.bin/webpack -d --watch index.js graphicDesigner.min.js",
-    "server": "node_modules/.bin/http-server &"
+    "build": "webpack --optimize-minimize index.js graphicDesigner.min.js",
+    "watch": "webpack -d --watch index.js graphicDesigner.min.js",
+    "server": "http-server &"
   },
   "repository": {
     "type": "git",

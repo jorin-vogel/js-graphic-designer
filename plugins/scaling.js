@@ -15,9 +15,9 @@ var scaling = function(app, options) {
     scaler.setAttribute('height', options.iconHeight);
 
 
-    var updateScalerPos = function() {
-        scaler.setAttribute('x', el.getBBox().width);
-        scaler.setAttribute('y', el.getBBox().height);
+    var updateScalerPos = function(elem) {
+        scaler.setAttribute('x', (elem || el).getBBox().width);
+        scaler.setAttribute('y', (elem || el).getBBox().height);
     };
 
 
